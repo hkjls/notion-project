@@ -1,0 +1,68 @@
+[{
+    "object": "page",
+    "id": "dj;flakdsjf",
+    "created_time": "2023-10-01T12:00:00Z",
+    "last_edited_time": "2023-10-01T12:00:",
+    "created_by": {
+        "object": "user",
+        "id": "user_id"
+    },
+    "last_edited_by": {
+        "object": "user",
+        "id": "user_id"
+    },
+    "cover": null,
+    "icon": null,
+    "parent": {
+        "type": "database_id",
+        "database_id": true
+    },
+    "archived": false,
+    "in_trash": false,
+    "properties":{
+        "Serie":{
+            "id": "title",
+            "type": "title",
+            "number":4
+        },
+        "Rep":{
+            "id": "rep",
+            "type": "number",
+            "number": 10
+        },
+        "Target muscle":{
+            "id": "target_muscle",
+            "type": "select",
+            "select": {
+                "id": "target_muscle_id",
+                "name": "Chest",
+                "color": "red"
+            }
+        },
+        "Technic":{
+            "id":"title",
+            "type":"title",
+            "title": [
+                {
+                    "type": "text",
+                    "text": {
+                        "content": "Bench Press",
+                        "link": null
+                    },
+                    "annotations": {
+                        "bold": false,
+                        "italic": false,
+                        "strikethrough": false,
+                        "underline": false,
+                        "code": false,
+                        "color": "default"
+                    },
+                    "plain_text": "Bench Press",
+                    "href": null
+                }
+            ]
+        }
+    },
+    "url": "https://www.notion.so/sample-page-id",
+    "public_url": null
+}]
