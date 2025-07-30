@@ -35,14 +35,22 @@ def main():
     print("-----------------------------")
     
     print("Content Number:",len(page))
-    print(list(map(lambda x:x['properties'], page)))
+    print(list(map(lambda x:x['properties']['title']['title'][0]['text']['content'], page)))
     print("-----------------------------")
     
     print("Content Number:",len(block))
-    print(list(map(lambda x:x['properties'], block)))
+    print(list(map(lambda x:x['properties']['title']['title'][0]['text']['content'], block)))
     print("-----------------------------")
     
-    print("Content Number:",len(database))
-    print(list(map(lambda x:x['properties'], database)))
+    moves = list(filter(lambda x:list(dict(x['properties']).keys())==['Serie', 'Rep', 'Target muscle', 'Technic'], database))
+    other = list(filter(lambda x:list(dict(x['properties']).keys())!=['Serie', 'Rep', 'Target muscle', 'Technic'], database))
+    
+    print("Content Number:",len(moves))
+    print(list(map(lambda x:x['properties']['Technic']['title'][0]['text']['content'], moves)))
+    print("-----------------------------")
+    
+    print("Content Number:",len(other))
+    print(list(map(lambda x:x['properties']['Page']['title'][0]['text']['content'], other)))
+
 if __name__ == "__main__":
     main()
