@@ -10,6 +10,9 @@ def shared_pages(headers, query=None):
         payload["query"] = query    
     
     response = requests.post(endpoint, headers=headers, json=payload)
-    response.raise_for_status()  # Raises an error for bad responses
-    return response.json()
+    # response.raise_for_status()  # Raises an error for bad responses
+    if response.status_code == 200:
+        return response.json()
+    
+    return {"error": f"Failed to fetch data: {response.status_code} - {response.text}"}
     

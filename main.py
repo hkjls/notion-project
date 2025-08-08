@@ -17,6 +17,10 @@ def main():
     print("Welcome into the Notion Integration Module!")
     notion_response = shared_pages(headers)
     
+    if notion_response.get("error"):
+        print(notion_response["error"])
+        exit()
+    
     pages_details = notion_response["results"]
     page = list(filter(lambda x:x['parent']['type'] == "page_id", pages_details))
     block = list(filter(lambda x:x['parent']['type'] == "block_id", pages_details))
@@ -30,26 +34,26 @@ def main():
     print(list(set(type_list)))
     
     # print(database[0]["properties"]["Technic"]["title"][0]["text"]["content"])
-    print("Content Number:",len(workspaces))
+    print("Content: workspaces","Number:",len(workspaces))
     print(list(map(lambda x:x['properties'], workspaces)))
     print("-----------------------------")
     
-    print("Content Number:",len(page))
+    print("Content: page, Number:",len(page))
     print(list(map(lambda x:x['properties']['title']['title'][0]['text']['content'], page)))
     print("-----------------------------")
     
-    print("Content Number:",len(block))
+    print("Content block, Number:",len(block))
     print(list(map(lambda x:x['properties']['title']['title'][0]['text']['content'], block)))
     print("-----------------------------")
     
     moves = list(filter(lambda x:list(dict(x['properties']).keys())==['Serie', 'Rep', 'Target muscle', 'Technic'], database))
     other = list(filter(lambda x:list(dict(x['properties']).keys())!=['Serie', 'Rep', 'Target muscle', 'Technic'], database))
     
-    print("Content Number:",len(moves))
+    print("Content: database, Number:",len(moves))
     print(list(map(lambda x:x['properties']['Technic']['title'][0]['text']['content'], moves)))
     print("-----------------------------")
     
-    print("Content Number:",len(other))
+    print("Content: database, Number:",len(other))
     print(list(map(lambda x:x['properties']['Page']['title'][0]['text']['content'], other)))
 
 if __name__ == "__main__":
