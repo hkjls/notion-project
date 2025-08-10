@@ -63,8 +63,8 @@ def user_list():
         finished = list(filter(lambda x:x['status']==True, project_list))
         # project_title = list(map(lambda x:x['title'][0]['text']['content'], project_title))
 
-        # print(project_title)
-        # print("..................")
+        print(finished)
+        print("..................")
     return response
     
     
