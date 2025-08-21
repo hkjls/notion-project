@@ -1,2 +1,5 @@
 poetry.lock
 __pycache__
+environment
+db.sqlite3
+*.pyc
