@@ -30,14 +30,30 @@ def get_db(db_name):
         db_content = notion.databases.query(
             database_id=db_id,
             start_cursor=None,
-            page_size=30,
+            page_size=10,
             # Tri par date décroissante
             sorts=[{"property": "Date", "direction": "descending"}],
+            # filter={
+            #     "property": "Date",
+            #     "date": {"on_or_before": datetime.now().isoformat()}
+            # },
             filter={
-                "property": "Date",
-                "date": {"on_or_before": datetime.now().isoformat()}
-            }
+                "property": "Projects",
+                "relation":{"is_not_empty":True}
+                }
+            # filter={
+            #         {
+            #             "property": "Project",
+            #             "relation":{"is_not_empty":False}
+            #         },
+            #         {
+            #             "property": "Task",
+            #             "title":{"is_not_empty":False}
+            #         }
+            # }
         )
+        print(db_content)
+        print(db_content["has_more"])
         # Simplifier la réponse
         data = {
             "data": [{
@@ -58,17 +74,17 @@ def get_db(db_name):
                 }
             } for page in db_content['results']]
         }
-        
+        print(data)
         # Sauvegarder chaque tâche
         saved_count = 0
         for item in data['data']:
             props = item['properties']
             task_data = {
-                'tasks': props.get('Task', ''),
+                'tasks': props.get('Tasks', ''),
                 'date': props.get('Date', datetime.now().date().isoformat()),
-                'projects': props.get('Project', ''),
+                'projects': props.get('Projects', ''),
                 'done': props.get('Done', False),
-                'clients': props.get('Client', ''),
+                'clients': props.get('Clients', ''),
                 'entreprise': props.get('Company', ''),
                 'tech_stack': props.get('Tech Stack', '')
             }
