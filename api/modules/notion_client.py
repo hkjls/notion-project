@@ -3,6 +3,7 @@ import os
 from datetime import datetime
 from dotenv import load_dotenv
 from pathlib import Path
+from .notionExtract import save_task_from_json
 
 load_dotenv(Path(__file__).resolve().parent.parent.parent/'.env')
 
@@ -28,6 +29,9 @@ def get_db(db_name):
         # Récupérer le contenu de la base de données
         db_content = notion.databases.query(
             database_id=db_id,
+            start_cursor=None,
+            page_size=30,
+            # Tri par date décroissante
             sorts=[{"property": "Date", "direction": "descending"}],
             filter={
                 "property": "Date",
@@ -35,7 +39,7 @@ def get_db(db_name):
             }
         )
         # Simplifier la réponse
-        return {
+        data = {
             "data": [{
                 "id": page['id'],
                 "properties": {
@@ -54,5 +58,27 @@ def get_db(db_name):
                 }
             } for page in db_content['results']]
         }
+        
+        # Sauvegarder chaque tâche
+        saved_count = 0
+        for item in data['data']:
+            props = item['properties']
+            task_data = {
+                'tasks': props.get('Task', ''),
+                'date': props.get('Date', datetime.now().date().isoformat()),
+                'projects': props.get('Project', ''),
+                'done': props.get('Done', False),
+                'clients': props.get('Client', ''),
+                'entreprise': props.get('Company', ''),
+                'tech_stack': props.get('Tech Stack', '')
+            }
+            try:
+                save_task_from_json(task_data)
+                saved_count += 1
+            except Exception as e:
+                print(f"Error saving task: {e}")
+                continue
+        
+        return {"success": 200, "saved_items": saved_count}
     except Exception as e:
         return {"error": str(e), "status": 500}
