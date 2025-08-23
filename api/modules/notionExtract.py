@@ -21,6 +21,7 @@ def save_task_from_json(json_data):
 
         # Create task instance
         task = Task(
+            id=json_data['id'],
             tasks=json_data['tasks'],
             date=date,
             projects=json_data['projects'],
@@ -32,7 +33,7 @@ def save_task_from_json(json_data):
         
         # Save to database
         task.save()
-        return task
+        # return task
     
     except KeyError as e:
         raise ValueError(f"Missing required field: {e}")

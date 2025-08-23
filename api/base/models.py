@@ -1,7 +1,7 @@
 from django.db import models
 
 class Task(models.Model):
-    id = models.BigAutoField(primary_key=True)
+    id = models.CharField(primary_key=True, max_length=255)
     done = models.BooleanField(default=False)
     tasks = models.CharField(max_length=255, null=False, blank=False)
     date = models.DateField(null=False, blank=False)

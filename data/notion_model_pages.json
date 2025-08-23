@@ -28,91 +28,60 @@
                     "type": "checkbox", 
                     "checkbox": false
                 }, 
-            "Projects": {
-                "id": "FOmK", 
-                "type": 
-                "relation", "relation": [
-                    {
-                        "id": "3c7c4850-b967-44f9-8e0e-24c1b7c45955"
-                    }
-                ], 
-                "has_more": false
-            }, 
-            "Clients": {
-                "id": "LeZF", 
-                "type": "relation", 
-                "relation": [
-                    {
-                        "id": "21e54347-2e12-4ddf-8f61-7887553a8eb2"
-                    }
-                ], 
-                "has_more": false
-            }, 
-            "Date": {
-                "id": "b%5Dnl", 
-                "type": "date", 
-                "date": {
-                    "start": "2025-08-03", 
-                    "end": "None", 
-                    "time_zone": "None"
-                    }
-            }, 
-            "Tech Stack": {
-                "id": "uPk%5B", 
-                "type": "relation", 
-                "relation": [
-                    {
-                        "id": "3ca7bd5a-d1b7-466f-bd04-ce77552fe5e4"
-                        }
-                ], 
-                "has_more": false
-            }, 
-            "Entreprise": {
-                "id": "wlo%5C", 
-                "type": "rollup", 
-                "rollup": {
-                    "type": "array",
-                    "array": [
+                "Projects": {
+                    "id": "FOmK", 
+                    "type": "relation", 
+                    "relation": [
                         {
-                            "type": "rich_text", 
-                            "rich_text": [
-                                {
-                                    "type": "text", 
-                                    "text": {
-                                        "content": "FLM Tanjombato", 
-                                        "link": "None"
-                                    }, 
-                                    "annotations": {
-                                        "bold": false, 
-                                        "italic": false, 
-                                        "strikethrough": false, 
-                                        "underline": false, 
-                                        "code": false, 
-                                        "color": "default"
-                                    }, 
-                                    "plain_text": "FLM Tanjombato", 
-                                    "href": "None"
-                                }
-                            ]
+                            "id": "3c7c4850-b967-44f9-8e0e-24c1b7c45955"
                         }
                     ], 
-                "function": "show_original"
-                }
-            }, 
-            "Name": {
-                "id": "~cXn", 
-                "type": "rollup", 
-                "rollup": {
-                    "type": "array", 
-                    "array": [
+                    "has_more": false
+                }, 
+                "Clients": {
+                    "id": "LeZF", 
+                    "type": "relation", 
+                    "relation": [
                         {
-                            "type": "title",
-                            "title": [
-                                {
-                                    "type": "text", 
-                                    "text": {
-                                        "content": "Pasteur Liva", 
-                                        "link": ""}, 
+                            "id": "21e54347-2e12-4ddf-8f61-7887553a8eb2"
+                        }
+                    ], 
+                    "has_more": false
+                }, 
+                "Date": {
+                    "id": "b%5Dnl", 
+                    "type": "date", 
+                    "date": {
+                        "start": "2025-08-03", 
+                        "end": "None", 
+                        "time_zone": "None"
+                        }
+                }, 
+                "Tech Stack": {
+                    "id": "uPk%5B", 
+                    "type": "relation", 
+                    "relation": [
+                        {
+                            "id": "3ca7bd5a-d1b7-466f-bd04-ce77552fe5e4"
+                            }
+                    ], 
+                    "has_more": false
+                }, 
+                "Entreprise": {
+                    "id": "wlo%5C", 
+                    "type": "rollup", 
+                    "rollup": {
+                        "type": "array",
+                        "array": [
+                            {
+                                "type": "rich_text", 
+                                "rich_text": [
+                                    {
+                                        "type": "text", 
+                                        "text": {
+                                            "content": "FLM Tanjombato", 
+                                            "link": "None"
+                                        }, 
                                         "annotations": {
                                             "bold": false, 
                                             "italic": false, 
@@ -121,36 +90,75 @@
                                             "code": false, 
                                             "color": "default"
                                         }, 
-                                        "plain_text": "Pasteur Liva", 
-                                        "href": false
-                                }
-                            ]
-                        }
-                    ], 
+                                        "plain_text": "FLM Tanjombato", 
+                                        "href": "None"
+                                    }
+                                ]
+                            }
+                        ], 
                     "function": "show_original"
-                }
-            }, 
-            "Tasks": {
-                "id": "title", 
-                "type": "title", 
-                "title": [
-                    {
-                        "type": "text", 
-                        "text": {
-                            "content": "UI TFA", 
-                            "link": "None"
-                        }, "annotations": {
-                            "bold": false, 
-                            "italic": false, 
-                            "strikethrough": false, 
-                            "underline": false, 
-                            "code": false, 
-                            "color": "default"
-                        }, 
-                        "plain_text": "UI TFA", 
-                        "href": "None"
                     }
-                ]
-            }
+                }, 
+                "Name": {
+                    "id": "~cXn", 
+                    "type": "rollup", 
+                    "rollup": {
+                        "type": "array", 
+                        "array": [
+                            {
+                                "type": "title",
+                                "title": [
+                                    {
+                                        "type": "text", 
+                                        "text": {
+                                            "content": "Pasteur Liva", 
+                                            "link": ""}, 
+                                            "annotations": {
+                                                "bold": false, 
+                                                "italic": false, 
+                                                "strikethrough": false, 
+                                                "underline": false, 
+                                                "code": false, 
+                                                "color": "default"
+                                            }, 
+                                            "plain_text": "Pasteur Liva", 
+                                            "href": false
+                                    }
+                                ]
+                            }
+                        ], 
+                        "function": "show_original"
+                    }
+                }, 
+                "Tasks": {
+                    "id": "title", 
+                    "type": "title", 
+                    "title": [
+                        {
+                            "type": "text", 
+                            "text": {
+                                "content": "UI TFA", 
+                                "link": "None"
+                            }, "annotations": {
+                                "bold": false, 
+                                "italic": false, 
+                                "strikethrough": false, 
+                                "underline": false, 
+                                "code": false, 
+                                "color": "default"
+                            }, 
+                            "plain_text": "UI TFA", 
+                            "href": "None"
+                        }
+                    ]
+                }
         }, 
-        "url": "https://www.notion.so/UI-TFA-244c9365880f8023a288e509b85a70b4", "public_url": None}], "next_cursor": None, "has_more": False, "type": "page_or_database", "page_or_database": {}, "request_id": "f74210d4-698b-4604-96d5-2502dc913f80"}
+    "url": "https://www.notion.so/UI-TFA-244c9365880f8023a288e509b85a70b4", 
+    "public_url": "None"
+    }],
+    "next_cursor": "None", 
+    "has_more": "False", 
+    "type": "page_or_database", 
+    "page_or_database": {}, 
+    "request_id": "f74210d4-698b-4604-96d5-2502dc913f80"
+}

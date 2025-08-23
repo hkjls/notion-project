@@ -25,76 +25,96 @@ def get_db(db_name):
 
         if not db_id:
             return {"error": "Database not found", "status": 404}
-
+        next_cursor = None
+        has_more = True
         # Récupérer le contenu de la base de données
-        db_content = notion.databases.query(
-            database_id=db_id,
-            start_cursor=None,
-            page_size=10,
-            # Tri par date décroissante
-            sorts=[{"property": "Date", "direction": "descending"}],
-            # filter={
-            #     "property": "Date",
-            #     "date": {"on_or_before": datetime.now().isoformat()}
-            # },
-            filter={
-                "property": "Projects",
-                "relation":{"is_not_empty":True}
-                }
-            # filter={
-            #         {
-            #             "property": "Project",
-            #             "relation":{"is_not_empty":False}
-            #         },
-            #         {
-            #             "property": "Task",
-            #             "title":{"is_not_empty":False}
-            #         }
-            # }
-        )
-        print(db_content)
-        print(db_content["has_more"])
-        # Simplifier la réponse
-        data = {
-            "data": [{
-                "id": page['id'],
-                "properties": {
-                    key: value.get('rich_text', [{}])[0].get('text', {}).get('content', '')
-                    if value.get('type') == 'rich_text'
-                    else value.get('title', [{}])[0].get('text', {}).get('content', '')
-                    if value.get('type') == 'title'
-                    else value.get('date', {}).get('start', '')
-                    if value.get('type') == 'date'
-                    else value.get('checkbox', False)
-                    if value.get('type') == 'checkbox'
-                    else value.get('select', {}).get('name', '')
-                    if value.get('type') == 'select'
-                    else ''
-                    for key, value in page['properties'].items()
-                }
-            } for page in db_content['results']]
-        }
-        print(data)
-        # Sauvegarder chaque tâche
-        saved_count = 0
-        for item in data['data']:
-            props = item['properties']
-            task_data = {
-                'tasks': props.get('Tasks', ''),
-                'date': props.get('Date', datetime.now().date().isoformat()),
-                'projects': props.get('Projects', ''),
-                'done': props.get('Done', False),
-                'clients': props.get('Clients', ''),
-                'entreprise': props.get('Company', ''),
-                'tech_stack': props.get('Tech Stack', '')
+        while has_more:
+            db_content = notion.databases.query(
+                database_id=db_id,
+                start_cursor=next_cursor,
+                page_size=20,
+                # Tri par date décroissante
+                sorts=[{"property": "Date", "direction": "descending"}],
+            )
+            has_more = db_content["has_more"]
+            next_cursor = db_content['next_cursor']
+
+            # Simplifier la réponse
+            data = {
+                "data": [{
+                    "id": page['id'],
+                    "properties": {
+                        key:value[value['type']]
+                        for key, value in page['properties'].items()
+                    }
+                } for page in db_content['results']]
             }
-            try:
+            
+            # Sauvegarder chaque tâche
+            saved_count = 0
+            entreprise=None
+            name=None
+            project_name=None
+            tech=None
+            
+            for item in data['data']:
+                id=item['id']
+                item = item['properties']
+
+                entreprise_array = {
+                    'plain_text':""
+                }
+                name_title={
+                    'plain_text':""
+                }
+                
+                projectName = {
+                    'plain_text':""
+                }
+                
+                techName = {
+                    'plain_text':""
+                }
+                
+                if len(item['Entreprise'][item['Entreprise']['type']])>0:
+                    entreprise = item['Entreprise'][item['Entreprise']['type']][0]
+                if entreprise is not None:
+                    entreprise_array = entreprise[entreprise['type']][0]
+                
+                if len(item['Name'][item['Name']['type']])>0:
+                    name = item['Name'][item['Name']['type']][0]
+                if name is not None:
+                    name_title = name[name['type']][0]
+                    
+                if len(item['ProjectsName'][item['ProjectsName']['type']])>0:
+                    project_name = item['ProjectsName'][item['ProjectsName']['type']][0]
+                if project_name is not None:
+                    projectName=project_name[project_name['type']][0]
+                    
+                if len(item['Techs'][item['Techs']['type']])>0:
+                    tech = item['Techs'][item['Techs']['type']][0]
+                if tech is not None:
+                    techName=tech[tech['type']][0]
+                    
+                task_data = {
+                    'id':id,
+                    'done':item['Done'],
+                    'projects':projectName['plain_text'],
+                    'clients':name_title['plain_text'],
+                    'date':item['Date']['start'].split("T")[0],
+                    'tech_stack':techName['plain_text'],
+                    'entreprise':entreprise_array['plain_text'],
+                    'tasks':item['Tasks'][0]['plain_text'] if len(item['Tasks'])>0 else ''
+                }
                 save_task_from_json(task_data)
+                
+                entreprise=None
+                name=None
+                project_name=None
+                tech=None
+                
                 saved_count += 1
-            except Exception as e:
-                print(f"Error saving task: {e}")
-                continue
-        
+            
         return {"success": 200, "saved_items": saved_count}
     except Exception as e:
         return {"error": str(e), "status": 500}
