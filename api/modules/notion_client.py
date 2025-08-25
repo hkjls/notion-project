@@ -33,27 +33,15 @@ def get_db(db_name):
             page_size=10,
             # Tri par date décroissante
             sorts=[{"property": "Date", "direction": "descending"}],
-            # filter={
-            #     "property": "Date",
-            #     "date": {"on_or_before": datetime.now().isoformat()}
-            # },
             filter={
                 "property": "Projects",
                 "relation":{"is_not_empty":True}
                 }
-            # filter={
-            #         {
-            #             "property": "Project",
-            #             "relation":{"is_not_empty":False}
-            #         },
-            #         {
-            #             "property": "Task",
-            #             "title":{"is_not_empty":False}
-            #         }
-            # }
         )
-        print(db_content)
-        print(db_content["has_more"])
+        # columns = db_content['results'][0]['properties']
+        # print(columns)
+        next_cursor = db_content['next_cursor']
+        has_more = db_content["has_more"]
         # Simplifier la réponse
         data = {
             "data": [{
@@ -74,7 +62,6 @@ def get_db(db_name):
                 }
             } for page in db_content['results']]
         }
-        print(data)
         # Sauvegarder chaque tâche
         saved_count = 0
         for item in data['data']:
