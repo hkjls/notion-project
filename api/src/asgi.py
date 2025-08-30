@@ -19,12 +19,16 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'src.settings')
 application = get_asgi_application()
 
 # Création d'une fonction wrapper pour get_db
-from modules.notion_client import get_db
+from dotenv import load_dotenv
+from modules.notion import notion
+
+load_dotenv(f"{root_dir.parent}/.env")
+auth = notion(os.getenv('notion_key'))
 
 # Cache pour les résultats (30 secondes)
 @lru_cache(maxsize=32)
 def cached_get_db(db_name, timestamp):
-    return get_db(db_name)
+    return auth.get_db(db_name)
 
 @sync_to_async
 def init_db():

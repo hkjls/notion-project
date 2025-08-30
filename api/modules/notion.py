@@ -1,45 +1,46 @@
 from notion_client import Client
-import os
-from datetime import datetime
-from dotenv import load_dotenv
-from pathlib import Path
 from .saveNotionData import save_task_from_json
 
-load_dotenv(Path(__file__).resolve().parent.parent.parent/'.env')
-
-notion = Client(auth=os.getenv('notion_key'))
-
-def get_db(db_name):
-    try:
-        # Recherche de la base de données
-        search_result = notion.search(
-            filter={"property": "object", "value": "database"}
+class notion:
+    def __init__(self, api_key:str=""):
+        if api_key=="":
+            print("Your API Key is empty")
+            self.getAccess = ""
+            exit()
+        self.getAccess = Client(auth=api_key)
+    
+    def get_dbs(self):
+        response = self.getAccess.search(
+            filter={
+                "property":"object",
+                "value":"database"
+            }
         )
-
-        # Trouver la base de données correspondante
+        
+        return response
+    
+    def get_db(self, db_name:str=""):
+        #Filter the response by the database name
         db_id = next(
-            (item['id'] for item in search_result['results'] 
+            (item['id'] for item in self.get_dbs()['results'] 
              if item['title'][0]['text']['content'] == db_name),
             None
         )
-
-        if not db_id:
-            return {"error": "Database not found", "status": 404}
+        #Send the request to have the content database
         next_cursor = None
         has_more = True
-        # Récupérer le contenu de la base de données
+        
         while has_more:
-            db_content = notion.databases.query(
+            db_content = self.getAccess.databases.query(
                 database_id=db_id,
                 start_cursor=next_cursor,
                 page_size=20,
-                # Tri par date décroissante
-                sorts=[{"property": "Date", "direction": "descending"}],
+                sorts=[{"property":"Date","direction":"descending"}]
             )
-            has_more = db_content["has_more"]
-            next_cursor = db_content['next_cursor']
-
-            # Simplifier la réponse
+            
+            has_more=db_content["has_more"]
+            next_cursor=db_content['next_cursor']
+            
             data = {
                 "data": [{
                     "id": page['id'],
@@ -50,8 +51,6 @@ def get_db(db_name):
                 } for page in db_content['results']]
             }
             
-            # Sauvegarder chaque tâche
-            saved_count = 0
             entreprise=None
             name=None
             project_name=None
@@ -61,20 +60,10 @@ def get_db(db_name):
                 id=item['id']
                 item = item['properties']
 
-                entreprise_array = {
-                    'plain_text':""
-                }
-                name_title={
-                    'plain_text':""
-                }
-                
-                projectName = {
-                    'plain_text':""
-                }
-                
-                techName = {
-                    'plain_text':""
-                }
+                entreprise_array = {'plain_text':""}
+                name_title={'plain_text':""}
+                projectName = {'plain_text':""}
+                techName = {'plain_text':""}
                 
                 if len(item['Entreprise'][item['Entreprise']['type']])>0:
                     entreprise = item['Entreprise'][item['Entreprise']['type']][0]
@@ -112,9 +101,5 @@ def get_db(db_name):
                 name=None
                 project_name=None
                 tech=None
-                
-                saved_count += 1
-            
-        return {"success": 200, "saved_items": saved_count}
-    except Exception as e:
-        return {"error": str(e), "status": 500}
+        
+        return {"success": 200}
