@@ -37,9 +37,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'base',  # Add this line
     'rest_framework',
+    'rest_framework.authtoken',
     'corsheaders',  # Add CORS headers support
+    'base',  # Add this line
+    'auth',
 ]
 
 MIDDLEWARE = [
