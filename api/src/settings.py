@@ -23,7 +23,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-^$+c36ep*7!rq@yxl66%mod)+rwz!%dagls0#r%p=0b485c2$x'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False  # Changed to False for production
+DEBUG = True  # Changed to False for production
 
 ALLOWED_HOSTS = ['*']  # Configure according to your production domains
 
@@ -41,7 +41,7 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'corsheaders',  # Add CORS headers support
     'base',  # Add this line
-    'auth',
+    'Auth',
 ]
 
 MIDDLEWARE = [

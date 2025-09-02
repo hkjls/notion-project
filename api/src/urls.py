@@ -27,5 +27,5 @@ urlpatterns = [
     path('', home_view, name='home'),  # Nouvelle route racine
     path('admin/', admin.site.urls),  # Modifié pour inclure le préfixe 'api'
     path('api/base/', include('base.urls')),
-    path('api/auth/', include ('auth.urls')),
+    path('api/auth/', include ('Auth.urls')),
 ]

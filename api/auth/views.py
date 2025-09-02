@@ -1,3 +1,3 @@
 from django.shortcuts import render
-import generics
-# Create your views hereQ
+
+# Create your views here.
