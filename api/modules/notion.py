@@ -8,6 +8,7 @@ class notion:
             self.getAccess = ""
             exit()
         self.getAccess = Client(auth=api_key)
+        self.__raw_dbs = []
     
     def get_dbs(self):
         response = self.getAccess.search(
@@ -18,6 +19,9 @@ class notion:
         )
         
         return response
+    
+    def get_raw_db(self):
+        return self.__raw_dbs
     
     def get_db(self, db_name:str=""):
         #Filter the response by the database name
@@ -38,6 +42,7 @@ class notion:
                 sorts=[{"property":"Date","direction":"descending"}]
             )
             
+            self.__raw_dbs.append(db_content)
             has_more=db_content["has_more"]
             next_cursor=db_content['next_cursor']
             

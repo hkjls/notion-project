@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'corsheaders',  # Add CORS headers support
     'base',  # Add this line
     'Auth',
+    'webHook'
 ]
 
 MIDDLEWARE = [
