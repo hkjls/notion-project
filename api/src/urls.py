@@ -28,4 +28,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),  # Modifié pour inclure le préfixe 'api'
     path('api/base/', include('base.urls')),
     path('api/auth/', include ('Auth.urls')),
+    path('api/webhook/', include('webHook.urls')),
 ]
